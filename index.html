@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic ChatBot</title>
+    <style>
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0a0a0a;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        /* Top header (user profile) */
+        .top {
+            width: 100%;
+            background: linear-gradient(145deg, #0a0a0a, #121212);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.5);
+        }
+
+        .usericon {
+            width: 50px;
+            height: 50px;
+            background: #00ffcc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #0a0a0a;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .username {
+            color: #00ffcc;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .username small {
+            display: block;
+            color: rgba(0, 255, 255, 0.5);
+            font-size: 12px;
+        }
+
+        /* Chatbox container */
+        .messagesdiv {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 15px;
+            background-color: #121212;
+        }
+
+        /* Message bubble */
+        .receiver-container {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffcc;
+            padding: 15px;
+            border-radius: 20px 20px 0px 20px;
+            max-width: 60%;
+            margin: 10px auto 10px 30px;
+            word-wrap: break-word;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+        }
+
+        .receiver-container2 {
+            background: rgba(255, 105, 180, 0.2);
+            color: #ff69b4;
+            padding: 15px;
+            border-radius: 20px 20px 20px 0;
+            max-width: 60%;
+            margin: 10px 30px 10px auto;
+            word-wrap: break-word;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            text-align: right;
+        }
+
+        /* Input section */
+        .bottom {
+            width: 100%;
+            background: #0a0a0a;
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid rgba(0, 255, 255, 0.5);
+        }
+
+        .inputtext {
+            width: 70%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #00ffcc;
+            font-size: 16px;
+            box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .inputtext:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        }
+
+        .send {
+            padding: 12px 20px;
+            background: #00ffcc;
+            border: none;
+            border-radius: 25px;
+            color: #0a0a0a;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+            transition: transform 0.3s ease;
+        }
+
+        .send:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+        }
+
+        .send:active {
+            transform: scale(0.9);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Top bar with profile and status -->
+    <div class="top">
+        <div class="usericon">G</div>
+        <div class="username">Glenn Sam Evangelio<br><small id="spanonline">Online</small></div>
+    </div>
+
+    <!-- Chatbox area -->
+    <div id="messagesdivid" class="messagesdiv">
+        <p class="receiver-container" align="center">Denise, every day with you feels like a beautiful adventure. Your smile lights up the darkest moments, and your kindness makes the world a better place. I'm endlessly grateful for your love, your laughter, and the warmth you bring into my life. 🥰💋You inspire me to be a better person, and I cherish every moment we share. Thank you for being my rock, my confidant, and my joy. You make life truly magical, and I can't imagine a future without you in it. Here's to us and the endless happiness we continue to create together.💐</p>
+    </div>
+
+    <!-- Input area -->
+    <div class="bottom">
+        <input type="text" class="inputtext" placeholder="Type your message..." id="message_box">
+        <button class="send" onclick="send_text()">Send</button>
+    </div>
+
+    <script>
+        function send_text() {
+            var userMessage = document.getElementById("message_box").value; // Get the input text
+            if (userMessage != "") {
+                // Create user's message div
+                var userElem = document.createElement('div');
+                var userText = document.createTextNode(userMessage);
+                userElem.appendChild(userText);
+                userElem.className = 'receiver-container2'; // Class for user's messages
+                document.getElementById("messagesdivid").appendChild(userElem); // Append user's message
+
+                // Clear input box
+                document.getElementById('message_box').value = "";
+
+                // Scroll to bottom
+                document.getElementById("messagesdivid").scrollTo(0, document.getElementById("messagesdivid").scrollHeight);
+
+                // Show "typing..." status
+                document.getElementById("spanonline").innerHTML = "Typing...";
+
+                // Delay the response
+                setTimeout(function() {
+                    bot_response();
+                }, 2000);
+            }
+        }
+
+        function bot_response() {
+            var botMessage = "Dili cgeg minaldita ha ayaw cgeg huna² nga dili tika pinangga,isulod sa imong huna² permi nga palangga tika kaayu ug wala nay lain pa okay?🙂‍↕️ iloveyou always po 💋 mwahp 😽"; // Bot's response message
+
+            // Create bot's message div
+            var botElem = document.createElement('div');
+            var botText = document.createTextNode(botMessage);
+            botElem.appendChild(botText);
+            botElem.className = 'receiver-container'; // Class for bot's messages
+            document.getElementById("messagesdivid").appendChild(botElem); // Append bot's message
+
+            // Scroll to bottom
+            document.getElementById("messagesdivid").scrollTo(0, document.getElementById("messagesdivid").scrollHeight);
+
+            // Reset "online" status
+            document.getElementById("spanonline").innerHTML = "Online";
+        }
+    </script>
+</body>
+</html>
